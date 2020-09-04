@@ -20,6 +20,11 @@ data ♭ {@♭ l : Level} (@♭ A : UU l) : UU l where
 ♭-counit : {@♭ l : Level} {@♭ A : UU l} → ♭ A → A
 ♭-counit (♭-unit x) = x
 
+-- Induction principle for ♭
+ind-♭ : {@♭ l1 : Level} {l2 : Level} {@♭ A : UU l1} (C : (x : ♭ A) → UU l2) (N : (@♭ u : A) → C (♭-unit u)) (M : ♭ A) → C M
+ind-♭ C N (♭-unit x) = N x
+
+
 -- We can turn off pattern matching for this thing but I don't see why we would need to
 -- Putting this at the top will break everything {-# OPTIONS --no-flat-split #-}
 
@@ -37,24 +42,24 @@ functor-♭-comp f g (♭-unit x) = refl
 -- -- 5. crisp ♭-induction
 
 -- [S, Lemma 5.1]
--- "♭-induction C N M" corresponds to "let u^♭ := M in N" from [S]
+-- Inducting on a crisp variable in ♭
 
-ind-♭ : {@♭ l1 l2 : Level} {@♭ A : UU l1} (@♭ C : (@♭ x : ♭ A) → UU l2) (@♭ N : (@♭ u : A) → C (♭-unit u)) (@♭ M : ♭ A) → C M
-ind-♭ C N (♭-unit x) = N x
+crisp-ind-♭ : {@♭ l1 l2 : Level} {@♭ A : UU l1} (@♭ C : (@♭ x : ♭ A) → UU l2) (@♭ N : (@♭ u : A) → C (♭-unit u)) (@♭ M : ♭ A) → C M
+crisp-ind-♭ C N (♭-unit x) = N x
 
 -- [S, Lemma 5.2]
--- Commuting ind-♭ with ♭-unit
+-- Commuting crisp-ind-♭ with ♭-unit
 
-ind-♭-♭-unit : {@♭ l1 l2 : Level} {@♭ A : UU l1} (@♭ C : (@♭ x : ♭ A) → UU l2) (@♭ N : (@♭ u : A) → C (♭-unit u)) (@♭ M : ♭ A)
-  → Id (♭-unit (ind-♭ C N M)) (ind-♭ (λ (@♭ x : ♭ A) → ♭ (C x)) (λ u → ♭-unit (N u)) M)
-ind-♭-♭-unit C N (♭-unit x) = refl
+crisp-ind-♭-♭-unit : {@♭ l1 l2 : Level} {@♭ A : UU l1} (@♭ C : (@♭ x : ♭ A) → UU l2) (@♭ N : (@♭ u : A) → C (♭-unit u)) (@♭ M : ♭ A)
+  → Id (♭-unit (crisp-ind-♭ C N M)) (crisp-ind-♭ (λ (@♭ x : ♭ A) → ♭ (C x)) (λ u → ♭-unit (N u)) M)
+crisp-ind-♭-♭-unit C N (♭-unit x) = refl
 
 -- [S, Lemma 5.3]
--- Commuting ind-♭ with ♭
+-- Commuting crisp-ind-♭ with ♭
 
-ind-♭-♭ : {@♭ l1 l2 : Level} {@♭ A : UU l1} (@♭ N : (@♭ u : A) → UU l2) (@♭ M : ♭ A)
-  → Id (♭ (ind-♭ (λ x → UU l2) N M)) (ind-♭ (λ x → UU l2) (λ (@♭ u : A) → ♭ (N u)) M )
-ind-♭-♭ N (♭-unit x) = refl
+crisp-ind-♭-♭ : {@♭ l1 l2 : Level} {@♭ A : UU l1} (@♭ N : (@♭ u : A) → UU l2) (@♭ M : ♭ A)
+  → Id (♭ (crisp-ind-♭ (λ x → UU l2) N M)) (crisp-ind-♭ (λ x → UU l2) (λ (@♭ u : A) → ♭ (N u)) M )
+crisp-ind-♭-♭ N (♭-unit x) = refl
 
 
 -- [S, Lemma 5.4]
