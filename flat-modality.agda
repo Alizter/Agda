@@ -176,3 +176,12 @@ equiv-id-♭' : {@♭ l : Level} {@♭ A : UU l} (@♭ x y : ♭ A) → Id x y �
 equiv-id-♭' (♭-unit x) (♭-unit y) = equiv-id-♭ x y
 
 
+-- [S, Corollary 6.3]
+-- action of ♭-unit on identity types
+
+♭-unit-id : {@♭ l : Level} {@♭ A : UU l} (@♭ x y : A) (@♭ p : Id x y) → Id (♭-unit x) (♭-unit y)
+♭-unit-id x y p = ♭-Id.decode (♭-unit x) (♭-unit y) (♭-unit p)
+
+♭-unit-id-ap-♭-counit : {@♭ l : Level} {@♭ A : UU l} (@♭ x y : A) (@♭ p : Id x y) → Id (ap ♭-counit (♭-unit-id x y p)) p
+♭-unit-id-ap-♭-counit x .x refl = refl
+
