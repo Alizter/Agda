@@ -185,3 +185,7 @@ equiv-id-♭' (♭-unit x) (♭-unit y) = equiv-id-♭ x y
 ♭-unit-id-ap-♭-counit : {@♭ l : Level} {@♭ A : UU l} (@♭ x y : A) (@♭ p : Id x y) → Id (ap ♭-counit (♭-unit-id x y p)) p
 ♭-unit-id-ap-♭-counit x .x refl = refl
 
+
+-- ♭ is a 2-functor
+two-functor-♭ : {@♭ l1 l2 : Level} {@♭ A : UU l1} {@♭ B : UU l2} {@♭ f g : A → B} (@♭ H : f ~ g) → functor-♭ f ~ functor-♭ g
+two-functor-♭ H (♭-unit x) = ♭-unit-id _ _ (H x)
