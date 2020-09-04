@@ -189,3 +189,21 @@ equiv-id-♭' (♭-unit x) (♭-unit y) = equiv-id-♭ x y
 -- ♭ is a 2-functor
 two-functor-♭ : {@♭ l1 l2 : Level} {@♭ A : UU l1} {@♭ B : UU l2} {@♭ f g : A → B} (@♭ H : f ~ g) → functor-♭ f ~ functor-♭ g
 two-functor-♭ H (♭-unit x) = ♭-unit-id _ _ (H x)
+
+-- [S, Corollary 6.4]
+-- flat distributes over coequalizers 
+
+-- ♭ (coeq f g) ≃ coeq (functor-♭ f) (functor-♭ g)
+
+-- [S, Corollary 6.5]
+-- The circle is discrete
+
+-- ♭ S¹ ≃ S¹
+
+
+-- [S, Theorem 6.6]
+-- ♭ preserves truncation levels
+
+is-trunc-♭ : (@♭ k : 𝕋) {@♭ l : Level} {@♭ A : UU l} (@♭ is-trunc-A : is-trunc k A) → is-trunc k (♭ A)
+is-trunc-♭ neg-two-𝕋 (pair c p) =  pair (♭-unit c) (ind-♭ (Id (♭-unit c)) (λ x → ♭-unit-id c x (p x)))
+is-trunc-♭ (succ-𝕋 k) is-trunc-A (♭-unit x) (♭-unit y) = is-trunc-equiv k (♭ (Id x y)) (equiv-id-♭ x y) (is-trunc-♭ k (is-trunc-A x y))
